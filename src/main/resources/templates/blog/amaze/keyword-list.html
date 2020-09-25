@@ -16,8 +16,8 @@
                                         </div>
                                         <div class="author-lockup blog-flex1">
                                             <a class="link" href="javascript:;"
-                                               th:text="${configurations.get('sysAuthor')}">13</a>
-                                            <span class="in">in</span>
+                                               th:text="${configurations.get('sysAuthor')}"></a>
+                                            <span class="in">❜ s</span>
                                             <span class="category-name">
                                 <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
                                    th:utext="${blog.blogCategoryName}">
@@ -40,7 +40,7 @@
                     </article>
                 </th:block>
             </th:block>
-            <th:block th:if="${null != blogPageResult}">
+            <th:block th:if="${null != blogPageResult && blogPageResult.totalPage > 0}">
                 <ul class="am-pagination">
                     <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
                             th:href="@{${blogPageResult.currPage==1}?'##':'/'+${pageUrl}+'/'+${keyword}+'/' + ${blogPageResult.currPage-1}}">&laquo;</a>

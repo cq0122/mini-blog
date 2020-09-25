@@ -1,12 +1,12 @@
 server:
-  port: 28084
+  port: 8070
 
 spring:
   datasource:
     name: myBlog
-    url: jdbc:mysql://localhost:3306/my_blog_db?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/blog?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong&zeroDateTimeBehavior=convertToNull
+    username: test
+    password: test
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
@@ -67,11 +67,13 @@ mybatis-plus:
       table-prefix: "tb_"
 
 logging:
+  config: classpath:log4j/log4j2_dev.xml
   level.com.site.blog: debug
 
 upload:
-  uploadAuthorImg: "D:/tmp/myblog/authorImg/"
-  fileUploadDic: "D:/tmp/myblog/upload/"
+  uploadAuthorImg: "D:/opt/mini-blog/authorImg/"
+  fileUploadDic: "D:/opt/mini-blog/upload/"
   sqlAuthorImg: "/authorImg/"
   fileSqlDic: "/upload/"
 
+adminLogin: true

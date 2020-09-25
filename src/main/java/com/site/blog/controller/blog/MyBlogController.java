@@ -67,7 +67,7 @@ public class MyBlogController {
      * @return java.lang.String
      * @date 2019/9/6 7:03
      */
-    @GetMapping({"/", "/index", "index.html"})
+    @GetMapping({"/", "/index", "index.html", "/search"})
     public String index(HttpServletRequest request) {
         return this.page(request, 1);
     }
@@ -94,7 +94,7 @@ public class MyBlogController {
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
-        request.setAttribute("pageName", "首页");
+        request.setAttribute("pageName", "Home");
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "blog/" + theme + "/index";
     }
@@ -109,17 +109,28 @@ public class MyBlogController {
      */
     @GetMapping({"/search/{keyword}"})
     public String search(HttpServletRequest request, @PathVariable("keyword") String keyword) {
-        return search(request, keyword, 1);
+        if (StringUtils.isEmpty(keyword)) {
+            return page(request, 1);
+        }
+        return search(request, keyword, "1");
     }
 
     @GetMapping({"/search/{keyword}/{pageNum}"})
-    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("pageNum") Integer pageNum) {
+    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("pageNum") String pageNumStr) {
+        int pageNum = 1;
+        try {
+            pageNum = Integer.parseInt(pageNumStr);
+            pageNum = Math.min(1, pageNum);
+        } catch (Exception e) {
+            pageNum = 1;
+        }
 
-        Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
+        Page<BlogInfo> page = new Page<>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
-                .lambda().like(BlogInfo::getBlogTitle, keyword)
+                .lambda().and(wrapper -> wrapper.like(BlogInfo::getBlogTitle, keyword).or().like(BlogInfo::getBlogPreface, keyword))
                 .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
                 .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
+                .or(wrapper -> wrapper.eq(BlogInfo::getBlogId, 1))
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);
@@ -261,7 +272,7 @@ public class MyBlogController {
         blogDetailVO.setCommentCount(blogCommentCount);
         request.setAttribute("blogDetailVO", blogDetailVO);
         request.setAttribute("tagList", tagList);
-        request.setAttribute("pageName", "详情");
+        request.setAttribute("pageName", blogInfo.getBlogTitle());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "blog/" + theme + "/detail";
     }
@@ -297,9 +308,9 @@ public class MyBlogController {
      * @return java.lang.String
      * @date 2019/9/6 17:26
      */
-    @GetMapping({"/link"})
+    @GetMapping({"/links"})
     public String link(HttpServletRequest request) {
-        request.setAttribute("pageName", "友情链接");
+        request.setAttribute("pageName", "Links");
         List<BlogLink> favoriteLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
                 .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_FRIENDSHIP.getLinkTypeId())
         );
@@ -315,6 +326,26 @@ public class MyBlogController {
         request.setAttribute("personalLinks", personalLinks);
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "blog/" + theme + "/link";
+    }
+
+    @GetMapping({"/about"})
+    public String about(HttpServletRequest request) {
+        request.setAttribute("pageName", "About");
+//        List<BlogLink> favoriteLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
+//                .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_FRIENDSHIP.getLinkTypeId())
+//        );
+//        List<BlogLink> recommendLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
+//                .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_RECOMMEND.getLinkTypeId())
+//        );
+//        List<BlogLink> personalLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
+//                .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_PRIVATE.getLinkTypeId())
+//        );
+//        //判断友链类别并封装数据 0-友链 1-推荐 2-个人网站
+//        request.setAttribute("favoriteLinks", favoriteLinks);
+//        request.setAttribute("recommendLinks", recommendLinks);
+//        request.setAttribute("personalLinks", personalLinks);
+        request.setAttribute("configurations", blogConfigService.getAllConfigs());
+        return "blog/" + theme + "/about";
     }
 
     /**

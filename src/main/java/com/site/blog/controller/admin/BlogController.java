@@ -136,7 +136,7 @@ public class BlogController {
         if (CollectionUtils.isEmpty(blogTagIds) || ObjectUtils.isEmpty(blogInfo)) {
             return ResultGenerator.getResultByHttp(HttpStatusEnum.BAD_REQUEST);
         }
-        blogInfo.setCreateTime(DateUtils.getLocalCurrentDate());
+//        blogInfo.setCreateTime(DateUtils.getLocalCurrentDate());
         blogInfo.setUpdateTime(DateUtils.getLocalCurrentDate());
         if (blogInfoService.saveOrUpdate(blogInfo)) {
             blogTagRelationService.removeAndsaveBatch(blogTagIds, blogInfo);

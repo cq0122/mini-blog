@@ -3,10 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title th:text="${configurations.get('websiteName')}+' | '+${pageName}">详情页</title>
+    <title th:text="${configurations.get('websiteName')}+' - '+${pageName}">详情页</title>
     <meta name="description" th:content="${configurations.get('websiteDescription')}">
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
+    <link rel="shortcut icon" th:href="@{/blog/amaze/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="${configurations.get('iconfont')}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/X-admin/lib/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
     <link rel="stylesheet" th:href="@{/X-admin/editormd/css/editormd.preview.css}"/>
@@ -36,7 +37,7 @@
 <body>
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 <header th:fragment="header-fragment" class="intro-header"
-        th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
+        th:style="'background-image:url(' + @{/blog/amaze/images/header-bg.jpg} + ');'">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -44,7 +45,7 @@
                     <h1 th:text="${blogDetailVO.blogTitle}"></h1>
                     <span class="meta">
                         <th:block th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></th:block> &nbsp;
-                            <div class="comments-view" style="display: inline-block">
+                            <div class="comments-view" style="display: inline-block;font-size:12px">
                                 <a href="#comments" class="article-comments"><th:block
                                         th:text="${blogDetailVO.commentCount}"></th:block>条评论</a> &nbsp;
                                 <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
@@ -68,15 +69,15 @@
             <article id="test-markdown-view">
                 <!--                <textarea th:utext="${blogDetailVO.blogContent}"/>-->
             </article>
-            <aside class="blog-rights clearfix">
-                <p>本站文章除注明转载/出处外，皆为作者原创，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
-            </aside>
+            <!--            <aside class="blog-rights clearfix">-->
+            <!--                <p>本站文章除注明转载/出处外，皆为作者原创，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>-->
+            <!--            </aside>-->
             <hr>
         </div>
     </div>
     <th:block th:if="${blogDetailVO.commentCount != 0}">
         <div id="volume" class="volume">
-            全部留言 <span th:text="${blogDetailVO.commentCount}"></span>
+            全部留言 <span th:text="${blogDetailVO.commentCount}"></span>&nbsp;&nbsp;<s style="font-size:12px">条</s>
         </div>
         <aside class="comments" id="comments">
             <div id="list-cont" class="list-cont">
@@ -85,35 +86,61 @@
         </aside>
     </th:block>
     <th:block th:if="${blogDetailVO.enableComment==0}">
-        <div class="layui-form layui-form-pane">
+        <div class="layui-form">
             <h2><i class="fa fa-pencil"></i> 添加评论</h2>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">昵称</label>
+                <label class="layui-form-label">昵称：</label>
                 <div class="layui-input-block">
                     <input type="hidden" id="blogId" autocomplete="off" th:value="${blogDetailVO.blogId}"/>
-                    <input type="text" id="commentator" autocomplete="off" placeholder="必填,1-6个字符" class="layui-input">
+                    <input type="text" id="commentator" autocomplete="off" placeholder="必填，1-6个字符" class="layui-input">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">邮箱</label>
+                <label class="layui-form-label">邮箱：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="email" autocomplete="off" placeholder="可不填" class="layui-input">
+                    <input type="text" id="email" autocomplete="off" placeholder="选填" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">网站地址</label>
-                <div class="layui-input-block">
-                    <input type="text" id="websiteUrl" autocomplete="off" placeholder="可不填" class="layui-input">
-                </div>
-            </div>
+            <!--            <div class="layui-form-item">-->
+            <!--                <label class="layui-form-label">网站地址</label>-->
+            <!--                <div class="layui-input-block">-->
+            <!--                    <input type="text" id="websiteUrl" autocomplete="off" placeholder="可不填" class="layui-input">-->
+            <!--                </div>-->
+            <!--            </div>-->
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">评论内容</label>
+                <label class="layui-form-label">内容：</label>
                 <div class="layui-input-block">
-                    <textarea id="commentBody" placeholder="既然来了,不如说几句" class="layui-textarea"></textarea>
+                    <p class="emoji-span">
+                        <span onclick="addEmoji('💪')">💪</span>
+                        <span onclick="addEmoji('👌')">👌</span>
+                        <span onclick="addEmoji('👍')">👍</span>
+                        <span onclick="addEmoji('👎')">👎</span>
+                        <span onclick="addEmoji('👋')">👋</span>
+                        <span onclick="addEmoji('👏')">👏</span>
+                        <span onclick="addEmoji('🌹')">🌹</span>
+                        <span onclick="addEmoji('😎')">😎</span>
+                        <span onclick="addEmoji('😁')">😁</span>
+                        <span onclick="addEmoji('😅')">😅</span>
+                        <span onclick="addEmoji('😭')">😭</span>
+                        <span onclick="addEmoji('🍇')">🍇</span>
+                        <span onclick="addEmoji('🍈')">🍈</span>
+                        <span onclick="addEmoji('🍉')">🍉</span>
+                        <span onclick="addEmoji('🍊')">🍊</span>
+                        <span onclick="addEmoji('🍋')">🍋</span>
+                        <span onclick="addEmoji('🍌')">🍌</span>
+                        <span onclick="addEmoji('🍍')">🍍</span>
+                        <span onclick="addEmoji('🍎')">🍎</span>
+                        <span onclick="addEmoji('🍏')">🍏</span>
+                    </p>
+                    <textarea id="commentBody" placeholder="必填，说点啥好了..." class="layui-textarea" style="font: 400 11px system-ui;"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
-                <button type="submit" class="layui-btn" id="commentSubmit">提交</button>
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" id="commentSubmit">提交</button>
+                </div>
             </div>
         </div>
     </th:block>
@@ -171,7 +198,7 @@
                             Array.from(res.data).forEach((value) => {
                                 strVal += `<div class="cont">
                                     <div class="img">
-                                        <img src="/blog/amaze/images/wordImg.png" style="width:50px;" alt="">
+                                        <img src="/blog/amaze/images/tx/${value.commentId%10}.png" style="width:50px;border-radius:50%;" alt="">
                                         <p class="tit"><span class="name">${value.commentator}</span><span class="data">${value.commentCreateTime}</span></p>
                                     </div>
                                     <div class="text">
@@ -222,26 +249,38 @@
                 layer.alert("参数异常",{icon: 5})
                 return;
             }
+
             if (isNull(commentator)) {
-                layer.alert("请输入你的称呼",{icon: 5})
+                layer.msg('请输入你的昵称', { time: 2000 });
+                $('#commentator').focus();
                 return;
             }
+
+<!--            if (!validCN_ENString2_100(commentator)) {-->
+<!--                layer.msg('昵称中请不要输入特殊字符', { time: 2000 });-->
+<!--                return;-->
+<!--            }-->
+
             if ((!isNull(email)) && !isEmail(email)) {
-                layer.alert("邮箱格式不正确",{icon: 5})
+                layer.msg('邮箱格式不正确', { time: 2000 });
+                $('#email').focus();
                 return;
             }
             if ((!isNull(websiteUrl)) && !isUrl(websiteUrl)) {
-                layer.alert("网站地址不正确",{icon: 5})
+                layer.msg('网站地址不正确', { time: 2000 });
                 return;
             }
-            if (!validCN_ENString2_100(commentator)) {
-                layer.alert("请输入符合规范的名称(不要输入特殊字符)",{icon: 5})
+
+            if (isNull(commentBody)) {
+                layer.msg('请输入评论内容', { time: 2000 });
+                $('#commentBody').focus();
                 return;
             }
-            if (!validCN_ENString2_100(commentBody)) {
-                layer.alert("请输入符合规范的评论内容(不要输入特殊字符)",{icon: 5})
-                return;
-            }
+
+<!--            if (!validCN_ENString2_100(commentBody)) {-->
+<!--                layer.msg('评论内容中请不要输入特殊字符', { time: 2000 });-->
+<!--                return;-->
+<!--            }-->
             var data = {
                 "blogId": blogId, "commentator": commentator,
                 "email": email, "websiteUrl": websiteUrl, "commentBody": commentBody
@@ -253,18 +292,24 @@
                 data: data,
                 success: function (result) {
                     if (result.resultCode === 200) {
-                        layer.alert("评论提交成功请等待博主审核",{icon: 6})
+                        layer.msg('评论提交成功请等待博主审核', { time: 5000 });
+                        $('#commentator').val('');
+                        $('#email').val('');
                         $('#commentBody').val('');
                     }
                     else {
-                        layer.alert(result.message,{icon: 5})
+                        layer.msg(result.message, { time: 2000 });
                     }
                 },
                 error: function () {
-                    layer.alert("操作失败",{icon: 5})
+                    layer.msg('操作失败', { time: 2000 });
                 }
             });
         });
     }();
+    function addEmoji(e){
+        let commentBody = $('#commentBody');
+        commentBody.val(commentBody.val() + e + ' ');
+    }
 </script>
 </html>

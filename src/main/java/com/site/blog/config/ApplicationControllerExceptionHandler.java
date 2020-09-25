@@ -3,8 +3,8 @@ package com.site.blog.config;
 import com.site.blog.constants.HttpStatusEnum;
 import com.site.blog.dto.Result;
 import com.site.blog.util.ResultGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ApplicationControllerExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationControllerExceptionHandler.class);
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * 方法参数效验

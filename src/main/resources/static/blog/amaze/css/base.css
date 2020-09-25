@@ -1855,7 +1855,7 @@ a:focus {
         box-shadow: 0 5px 10px 2px rgba(0, 0, 0, .2);
         box-shadow: rgba(0, 0, 0, .117647) 0 1px 6px, rgba(0, 0, 0, .239216) 0 1px 4px;
         border-radius: 2px;
-        width: 120px
+        width: 90px
     }
 }
 
@@ -2061,7 +2061,7 @@ input::-webkit-input-placeholder {
         box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
         box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.239216) 0px 1px 4px;
         border-radius: 2px;
-        width: 170px;
+        width: 90px;
     }
     #huxblog_navbar a {
         font-size: 13px;
@@ -2114,8 +2114,8 @@ input::-webkit-input-placeholder {
     text-transform: uppercase;
     font-size: 16px;
     line-height: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0;
 }
 
 .navbar-custom .nav li a:active {
@@ -2716,7 +2716,7 @@ input::-webkit-input-placeholder {
         box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
         box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.239216) 0px 1px 4px;
         border-radius: 2px;
-        width: 170px;
+        width: 90px;
     }
     #huxblog_navbar {
         /**
@@ -2802,8 +2802,8 @@ input::-webkit-input-placeholder {
     text-transform: uppercase;
     font-size: 16px;
     line-height: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0px;
 }
 
 .navbar-custom .nav li a:active {
@@ -3854,7 +3854,7 @@ input {
 
 .back-top {
     position: fixed;
-    bottom: 10px;
+    bottom: 5px;
     right: 5px;
     z-index: 99;
 }
@@ -3864,6 +3864,7 @@ input {
     height: 64px;
     display: block;
     background: url(../images/rocket.png) no-repeat center center;
+    background-size: 50px 65px;
 }
 
 .back-top a {
@@ -3934,6 +3935,13 @@ input {
 .volume span {
     padding-left: 30px;
     color: #f37d25;
+}
+
+.emoji-span{
+    padding-top: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+    user-select:none;
 }
 
 @media screen and (max-width: 768px){

@@ -1,5 +1,6 @@
 package com.site.blog.interceptor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,9 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AdminLoginInterceptor implements HandlerInterceptor {
 
+    @Value("${adminLogin}")
+    private boolean adminLogin;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
+        if (uri.startsWith("/admin") && !adminLogin) {
+            request.getSession().removeAttribute("errorMsg");
+            return true;
+        }
         if (uri.startsWith("/admin") && null == request.getSession().getAttribute("loginUserId")) {
             request.getSession().setAttribute("errorMsg", "请重新登陆");
             response.sendRedirect(request.getContextPath() + "/admin/v1/login");

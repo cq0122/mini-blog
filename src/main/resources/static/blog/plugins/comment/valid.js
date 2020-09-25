@@ -21,6 +21,11 @@ function validLength(obj, length) {
 
 }
 
+function validCN_ENString1_100(str) {
+    var pattern = /^[a-zA-Z0-9-\u4E00-\u9FA5_,， ]{1,100}$/;
+    return pattern.test(str.trim());
+}
+
 /**
  * 正则匹配2-100位的中英文字符串
  *
