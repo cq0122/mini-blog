@@ -3899,6 +3899,9 @@ input {
 }
 
 /*评论列表样式*/
+.comment .layui-input-block{
+    margin-left: 80px;
+}
 
 .list-cont .cont {
     max-width: 100%;
