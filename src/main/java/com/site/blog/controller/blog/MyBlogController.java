@@ -130,7 +130,7 @@ public class MyBlogController {
                 .lambda().and(wrapper -> wrapper.like(BlogInfo::getBlogTitle, keyword).or().like(BlogInfo::getBlogPreface, keyword))
                 .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
                 .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
-                .or(wrapper -> wrapper.eq(BlogInfo::getBlogId, 1))
+//                .or(wrapper -> wrapper.eq(BlogInfo::getBlogId, 1))
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);
