@@ -132,8 +132,8 @@ public class BlogController {
      */
     @ResponseBody
     @PostMapping("/v1/blog/edit")
-    public Result<String> saveBlog(@RequestParam("blogTagIds[]") List<Integer> blogTagIds, BlogInfo blogInfo) {
-        if (CollectionUtils.isEmpty(blogTagIds) || ObjectUtils.isEmpty(blogInfo)) {
+    public Result<String> saveBlog(@RequestParam(value = "blogTagIds[]", required = false) List<Integer> blogTagIds, BlogInfo blogInfo) {
+        if (ObjectUtils.isEmpty(blogInfo)) {
             return ResultGenerator.getResultByHttp(HttpStatusEnum.BAD_REQUEST);
         }
 //        blogInfo.setCreateTime(DateUtils.getLocalCurrentDate());
