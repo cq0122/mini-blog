@@ -3765,6 +3765,7 @@ input {
 }
 .comments-view {
     display: inline-block;
+    font-size:12px
 }
 .sidebar-search {
     padding: 24px 0 0;

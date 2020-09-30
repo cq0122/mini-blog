@@ -170,24 +170,29 @@ public class MyBlogController {
      */
     @GetMapping({"/tag/{tagId}/{pageNum}"})
     public String tag(HttpServletRequest request, @PathVariable("tagId") String tagId, @PathVariable("pageNum") Integer pageNum) {
-        List<BlogTagRelation> list = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>()
-                .lambda().eq(BlogTagRelation::getTagId, tagId));
         PageResult blogPageResult = null;
-        if (!list.isEmpty()) {
-            Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
-            blogInfoService.page(page, new QueryWrapper<BlogInfo>()
-                    .lambda()
-                    .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
-                    .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
-                    .in(BlogInfo::getBlogId, list.stream().map(BlogTagRelation::getBlogId).toArray())
-                    .orderByDesc(BlogInfo::getCreateTime));
-            blogPageResult = new PageResult
-                    (page.getRecords(), page.getTotal(), 8, pageNum);
+        String pageName = "标签";
+        BlogTag blogTag = blogTagService.getById(tagId);
+        if (blogTag != null) {
+            pageName = blogTag.getTagName();
+            List<BlogTagRelation> list = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>()
+                    .lambda().eq(BlogTagRelation::getTagId, tagId));
+            if (!list.isEmpty()) {
+                Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
+                blogInfoService.page(page, new QueryWrapper<BlogInfo>()
+                        .lambda()
+                        .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
+                        .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
+                        .in(BlogInfo::getBlogId, list.stream().map(BlogTagRelation::getBlogId).toArray())
+                        .orderByDesc(BlogInfo::getCreateTime));
+                blogPageResult = new PageResult
+                        (page.getRecords(), page.getTotal(), 8, pageNum);
+            }
         }
         request.setAttribute("blogPageResult", blogPageResult);
-        request.setAttribute("pageName", "标签");
+        request.setAttribute("pageName", pageName);
         request.setAttribute("pageUrl", "tag");
-        request.setAttribute("keyword", tagId);
+        request.setAttribute("keyword", pageName);
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
@@ -222,7 +227,7 @@ public class MyBlogController {
                 (page.getRecords(), page.getTotal(), 8, pageNum);
 
         request.setAttribute("blogPageResult", blogPageResult);
-        request.setAttribute("pageName", "分类");
+        request.setAttribute("pageName", categoryName);
         request.setAttribute("pageUrl", "category");
         request.setAttribute("keyword", categoryName);
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
@@ -273,6 +278,8 @@ public class MyBlogController {
         request.setAttribute("blogDetailVO", blogDetailVO);
         request.setAttribute("tagList", tagList);
         request.setAttribute("pageName", blogInfo.getBlogTitle());
+        request.setAttribute("description", blogInfo.getBlogTitle() + "," + blogInfo.getBlogPreface());
+        request.setAttribute("keywords", tagList.stream().map(item -> item.getTagName()).collect(Collectors.joining(",")));
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "blog/" + theme + "/detail";
     }

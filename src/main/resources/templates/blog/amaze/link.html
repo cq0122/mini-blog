@@ -14,9 +14,8 @@
                 <div class="list">
                     <ul>
                         <th:block th:each="favoriteLink : ${favoriteLinks}">
-                            <li><a target="_blank" th:href="@{${favoriteLink.linkUrl}}"
-                                   th:text="${favoriteLink.linkName}">前端</a>
-                                -
+                            <li>
+                                <a target="_blank" th:href="@{${favoriteLink.linkUrl}}" th:text="${favoriteLink.linkName}">前端</a> -
                                 <th:block th:text="${favoriteLink.linkDescription}"></th:block>
                             </li>
                         </th:block>
@@ -30,8 +29,8 @@
                 <div class="list">
                     <ul>
                         <th:block th:each="recommendLink : ${recommendLinks}">
-                            <li><a target="_blank"  th:href="@{${recommendLink.linkUrl}}" th:text="${recommendLink.linkName}">后端</a>
-                                -
+                            <li>
+                                <a target="_blank" th:href="@{${recommendLink.linkUrl}}" th:text="${recommendLink.linkName}">后端</a> -
                                 <th:block th:text="${recommendLink.linkDescription}"></th:block>
                             </li>
                         </th:block>
@@ -45,9 +44,8 @@
                 <div class="list">
                     <ul>
                         <th:block th:each="personalLink : ${personalLinks}">
-                            <li><a target="_blank"  th:href="@{${personalLink.linkUrl}}"
-                                   th:text="${personalLink.linkName}">资料下载</a>
-                                -
+                            <li>
+                                <a target="_blank" th:href="@{${personalLink.linkUrl}}" th:text="${personalLink.linkName}">资料下载</a> -
                                 <th:block th:text="${personalLink.linkDescription}"></th:block>
                             </li>
                         </th:block>

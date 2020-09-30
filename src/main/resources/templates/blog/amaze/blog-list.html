@@ -11,31 +11,26 @@
                                 <div class="pull-left">
                                     <div class="blog-flex-center">
                                         <div class="blog-flex0">
-                                            <img th:src="@{${configurations.get('sysAuthorImg')}}" alt=""
-                                                 class="link avatar avatar-image">
+                                            <img th:src="@{${configurations.get('sysAuthorImg')}}" alt="" class="link avatar avatar-image">
                                         </div>
                                         <div class="author-lockup blog-flex1">
-                                            <a class="link" href="javascript:;"
-                                               th:text="${configurations.get('sysAuthor')}"></a>
+                                            <a class="link" href="javascript:;" th:text="${configurations.get('sysAuthor')}"></a>
                                             <span class="in">❜ s</span>
                                             <span class="category-name">
-                                <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
-                                   th:utext="${blog.blogCategoryName}">
-                                    </a>
-                            </span>
+                                                <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}" th:utext="${blog.blogCategoryName}"></a>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="pull-right time pc_time"
-                                      th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}"></span>
+                                <span class="pull-right time pc_time" th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}"></span>
                             </div>
-                            <h1 class="post-index-title"><a itemtype="url" th:href="@{'/blog/' + ${blog.blogId}}">
-                                <th:block th:text="${blog.blogTitle}"></th:block>
-                            </a>
+                            <h1 class="post-index-title">
+                                <a itemtype="url" th:href="@{'/blog/' + ${blog.blogId}}">
+                                    <th:block th:text="${blog.blogTitle}"></th:block>
+                                </a>
                             </h1>
                             <div class="abstract vditor-reset">
-                                <p th:text="${blog.blogPreface}">
-                                </p>
+                                <p th:text="${blog.blogPreface}"></p>
                             </div>
                         </div>
                     </article>
@@ -44,31 +39,30 @@
             <!-- 分页逻辑 -->
             <th:block th:if="${null != blogPageResult && blogPageResult.totalPage > 0}">
                 <ul class="am-pagination">
-                    <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
-                            th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
+                    <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'">
+                        <a th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
                     </li>
-                    <li th:if="${blogPageResult.currPage-3 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-3}}"
-                            th:text="${blogPageResult.currPage -3}">1</a></li>
-                    <li th:if="${blogPageResult.currPage-2 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-2}}"
-                            th:text="${blogPageResult.currPage -2}">1</a></li>
-                    <li th:if="${blogPageResult.currPage-1 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-1}}"
-                            th:text="${blogPageResult.currPage -1}">1</a></li>
+                    <li th:if="${blogPageResult.currPage-3 >=1}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage-3}}" th:text="${blogPageResult.currPage -3}">1</a>
+                    </li>
+                    <li th:if="${blogPageResult.currPage-2 >=1}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage-2}}" th:text="${blogPageResult.currPage -2}">1</a>
+                    </li>
+                    <li th:if="${blogPageResult.currPage-1 >=1}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage-1}}" th:text="${blogPageResult.currPage -1}">1</a>
+                    </li>
                     <li class="active"><a href="#" th:text="${blogPageResult.currPage}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+1 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+1}}"
-                            th:text="${blogPageResult.currPage +1}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+2 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+2}}"
-                            th:text="${blogPageResult.currPage +2}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+3 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+3}}"
-                            th:text="${blogPageResult.currPage +3}">1</a></li>
+                    <li th:if="${blogPageResult.currPage+1 <=blogPageResult.totalPage}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage+1}}" th:text="${blogPageResult.currPage +1}">1</a>
+                    </li>
+                    <li th:if="${blogPageResult.currPage+2 <=blogPageResult.totalPage}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage+2}}" th:text="${blogPageResult.currPage +2}">1</a>
+                    </li>
+                    <li th:if="${blogPageResult.currPage+3 <=blogPageResult.totalPage}">
+                        <a th:href="@{'/page/' + ${blogPageResult.currPage+3}}" th:text="${blogPageResult.currPage +3}">1</a>
+                    </li>
                     <li th:class="${blogPageResult.currPage==blogPageResult.totalPage}?'disabled' : ''">
-                        <a
-                                th:href="@{${blogPageResult.currPage==blogPageResult.totalPage}?'##' : '/page/' + ${blogPageResult.currPage+1}}">&raquo;</a>
+                        <a th:href="@{${blogPageResult.currPage==blogPageResult.totalPage}?'##' : '/page/' + ${blogPageResult.currPage+1}}">&raquo;</a>
                     </li>
                 </ul>
             </th:block>
