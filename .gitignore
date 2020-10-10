@@ -24,4 +24,4 @@
 /nbdist/
 /.nb-gradle/
 /-
-/src/main/resources/static/blog/baidu.js
+/src/main/resources/static/blog/plugins/baidu.js
