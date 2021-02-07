@@ -36,27 +36,27 @@
 </head>
 <body>
 <div th:replace="blog/amaze/header::nav-fragment"></div>
-<header th:fragment="header-fragment" class="intro-header" th:style="'background-image:url(' + @{/blog/amaze/images/header-bg.jpg} + ');'">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <h1 th:text="${blogDetailVO.blogTitle}"></h1>
-                    <span class="meta">
+<header th:fragment="header-fragment" class="intro-header" th:style="'background-image:url(' + @{/blog/amaze/images/header-bg3.jpg} + ');'">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1 th:text="${blogDetailVO.blogTitle}"></h1>
+          <span class="meta">
                         <th:block th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></th:block>&nbsp;
                         <div class="comments-view">
                             <a href="#comments" class="article-comments"><th:block th:text="${blogDetailVO.commentCount}"></th:block>条评论</a>&nbsp;
                             <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
                         </div>
                     </span>
-                    <div class="tags post-tags">
-                        <th:block th:each="tag : ${tagList}">
-                            <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag.tagId}}">
-                                <th:block th:text="${tag.tagName}"></th:block>
-                            </a>&nbsp;
-                        </th:block>
-                    </div>
-                </div>
+          <div class="tags post-tags">
+            <th:block th:each="tag : ${tagList}">
+              <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag.tagId}}">
+                <th:block th:text="${tag.tagName}"></th:block>
+              </a>&nbsp;
+            </th:block>
+          </div>
+        </div>
             </div>
         </div>
     </div>
