@@ -2019,6 +2019,7 @@ input::-webkit-input-placeholder {
 .tags {
     margin-top: 20px;
     margin-bottom: -5px;
+    user-select: none;
 }
 
 .tags a {
