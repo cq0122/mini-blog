@@ -311,7 +311,7 @@ public class MyBlogController {
      */
     @GetMapping("/blog/listComment")
     @ResponseBody
-    public AjaxResultPage<BlogComment> listComment(AjaxPutPage<BlogComment> ajaxPutPage, Integer blogId) {
+    public AjaxResultPage<BlogComment> listComment(AjaxPutPage<BlogComment> ajaxPutPage, Long blogId) {
         Page<BlogComment> page = ajaxPutPage.putPageToPage();
         blogCommentService.page(page, new QueryWrapper<BlogComment>()
                 .lambda()
