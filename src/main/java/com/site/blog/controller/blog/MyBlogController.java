@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -263,9 +264,13 @@ public class MyBlogController {
      * @date 2019/9/6 13:09
      */
     @GetMapping({"/blog/{blogId}", "/article/{blogId}"})
-    public String detail(HttpServletRequest request, @PathVariable("blogId") Long blogId) {
+    public String detail(HttpServletRequest request, HttpServletResponse response, @PathVariable("blogId") Long blogId) {
         // 获得文章info
         BlogInfo blogInfo = blogInfoService.getById(blogId);
+        if (blogInfo == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return "error/error_404";
+        }
         List<BlogTagRelation> blogTagRelations = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>()
                 .lambda()
                 .eq(BlogTagRelation::getBlogId, blogId));

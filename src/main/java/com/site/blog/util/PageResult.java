@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class PageResult implements Serializable {
 
+    private static final int PAGE_WINDOW_SIZE = 5;
+
     //总记录数
     private long totalCount;
     //每页记录数
@@ -36,8 +38,12 @@ public class PageResult implements Serializable {
         this.list = list;
         this.totalCount = totalCount;
         this.pageSize = pageSize;
-        this.currPage = currPage;
         this.totalPage = (int) Math.ceil((double) totalCount / pageSize);
+        if (this.totalPage > 0) {
+            this.currPage = Math.max(1, Math.min(currPage, this.totalPage));
+        } else {
+            this.currPage = Math.max(1, currPage);
+        }
     }
 
     public long getTotalCount() {
@@ -70,6 +76,32 @@ public class PageResult implements Serializable {
 
     public void setCurrPage(int currPage) {
         this.currPage = currPage;
+    }
+
+    public int getPageStart() {
+        if (totalPage <= 0) {
+            return 1;
+        }
+        if (totalPage <= PAGE_WINDOW_SIZE) {
+            return 1;
+        }
+
+        int currentPage = Math.max(1, Math.min(currPage, totalPage));
+        int halfWindow = PAGE_WINDOW_SIZE / 2;
+        if (currentPage <= halfWindow + 1) {
+            return 1;
+        }
+        if (currentPage + halfWindow >= totalPage) {
+            return totalPage - PAGE_WINDOW_SIZE + 1;
+        }
+        return currentPage - halfWindow;
+    }
+
+    public int getPageEnd() {
+        if (totalPage <= 0) {
+            return 0;
+        }
+        return Math.min(totalPage, getPageStart() + PAGE_WINDOW_SIZE - 1);
     }
 
     public List<?> getList() {

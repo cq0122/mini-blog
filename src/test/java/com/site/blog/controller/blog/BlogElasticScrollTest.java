@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BlogElasticScrollTest {
@@ -34,8 +35,17 @@ public class BlogElasticScrollTest {
         assertTrue(elasticScroll.contains("elastic-scroll-active"));
         assertTrue(elasticScroll.contains("elastic-scroll-return"));
         assertTrue(elasticScroll.contains("requestAnimationFrame"));
-        assertTrue(elasticScroll.contains("springStiffness"));
-        assertTrue(elasticScroll.contains("springDamping"));
+        assertTrue(elasticScroll.contains("var maxPull = 28;"));
+        assertTrue(elasticScroll.contains("var touchResistance = 0.16;"));
+        assertTrue(elasticScroll.contains("var wheelResistance = 0.075;"));
+        assertTrue(elasticScroll.contains("var wheelStepLimit = 5;"));
+        assertTrue(elasticScroll.contains("var releaseDuration = 180;"));
+        assertTrue(elasticScroll.contains("function easeOutCubic(progress)"));
+        assertTrue(elasticScroll.contains("releaseStartPull * (1 - easedProgress)"));
+        assertTrue(elasticScroll.contains("Math.log1p(distance)"));
+        assertFalse(elasticScroll.contains("springVelocity"));
+        assertFalse(elasticScroll.contains("springStiffness"));
+        assertFalse(elasticScroll.contains("springDamping"));
     }
 
     private String read(String path) throws Exception {

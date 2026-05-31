@@ -25,7 +25,7 @@ public class BlogDetailLayoutTest {
         assertTrue(baseCss.contains(".detail-back-row"));
         assertTrue(baseCss.contains(".detail-back-link"));
         assertTrue(baseCss.contains(".detail-back-arrow"));
-        assertTrue(baseCss.contains("rgba(54, 181, 159, 0.14)"));
+        assertTrue(baseCss.contains("rgba(0, 150, 136, 0.14)"));
         assertTrue(baseCss.contains("linear-gradient(135deg"));
         assertTrue(baseCss.contains("min-height: max(280px, calc(100vh - 590px));"));
     }

@@ -20,8 +20,11 @@ public class BlogAboutLayoutTest {
         assertTrue(aboutTemplate.contains("class=\"about-card page-panel\""));
         assertTrue(aboutTemplate.contains("class=\"about-card-avatar\""));
         assertTrue(aboutTemplate.contains("th:src=\"@{${configurations.get('sysAuthorImg')}}\""));
-        assertTrue(aboutTemplate.contains("class=\"about-map-panel page-panel\""));
-        assertTrue(aboutTemplate.contains("about-map.png"));
+        assertFalse(aboutTemplate.contains("class=\"about-map-panel page-panel\""));
+        assertTrue(aboutTemplate.contains("<section class=\"about-map-panel\">"));
+        assertTrue(aboutTemplate.contains("about-map.jpg"));
+        assertTrue(aboutTemplate.contains("loading=\"lazy\""));
+        assertTrue(aboutTemplate.contains("decoding=\"async\""));
         assertTrue(aboutTemplate.contains("85后大叔，迷失在自己的代码中无法自拔~~~"));
         assertTrue(aboutTemplate.contains("<section class=\"contact-list\">"));
         assertFalse(aboutTemplate.contains("about-intro-grid"));
@@ -29,6 +32,10 @@ public class BlogAboutLayoutTest {
         assertTrue(baseCss.contains(".about-card-avatar"));
         assertTrue(baseCss.contains(".about-page .about-card:before"));
         assertTrue(baseCss.contains(".about-map-panel"));
+        assertTrue(baseCss.contains("border-top: 1px solid rgba(226, 232, 242, 0.95);"));
+        assertTrue(baseCss.contains(".about-map-panel img"));
+        assertTrue(baseCss.contains("height: auto;"));
+        assertTrue(baseCss.contains("object-fit: contain;"));
         assertTrue(baseCss.contains("grid-template-columns: repeat(3, minmax(0, 1fr));"));
     }
 

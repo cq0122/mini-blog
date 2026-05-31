@@ -5,18 +5,16 @@
         return;
     }
 
-    var maxPull = 72;
-    var touchDamping = 0.36;
-    var wheelDamping = 0.18;
-    var springStiffness = 0.12;
-    var springDamping = 0.74;
+    var maxPull = 28;
+    var touchResistance = 0.16;
+    var wheelResistance = 0.075;
+    var wheelStepLimit = 5;
+    var releaseDuration = 180;
     var startY = 0;
     var currentPull = 0;
-    var springVelocity = 0;
     var pulling = false;
-    var releaseTimer = null;
     var wheelTimer = null;
-    var springFrame = null;
+    var releaseFrame = null;
 
     function isEditable(target) {
         if (!target) {
@@ -33,12 +31,19 @@
     }
 
     function setPull(value) {
-        window.cancelAnimationFrame(springFrame);
-        springFrame = null;
-        springVelocity = 0;
+        window.cancelAnimationFrame(releaseFrame);
+        releaseFrame = null;
         currentPull = Math.max(0, Math.min(maxPull, value));
         document.body.classList.add('elastic-scroll-active');
         document.body.style.setProperty('--elastic-pull-offset', currentPull + 'px');
+    }
+
+    function dampen(distance, resistance) {
+        return Math.log1p(distance) * Math.max(0, distance) * resistance;
+    }
+
+    function easeOutCubic(progress) {
+        return 1 - Math.pow(1 - progress, 3);
     }
 
     function releasePull() {
@@ -48,31 +53,33 @@
             return;
         }
 
-        window.clearTimeout(releaseTimer);
-        window.cancelAnimationFrame(springFrame);
+        window.cancelAnimationFrame(releaseFrame);
         document.body.classList.add('elastic-scroll-return');
         pulling = false;
 
-        function settle() {
-            springVelocity += (0 - currentPull) * springStiffness;
-            springVelocity *= springDamping;
-            currentPull += springVelocity;
+        var releaseStartPull = currentPull;
+        var releaseStartTime = window.performance && window.performance.now ? window.performance.now() : Date.now();
 
-            if (Math.abs(currentPull) < 0.35 && Math.abs(springVelocity) < 0.35) {
+        function settle(now) {
+            var elapsed = now - releaseStartTime;
+            var progress = Math.min(1, elapsed / releaseDuration);
+            var easedProgress = easeOutCubic(progress);
+            currentPull = releaseStartPull * (1 - easedProgress);
+
+            if (progress >= 1 || currentPull <= 0.2) {
                 currentPull = 0;
-                springVelocity = 0;
                 document.body.style.setProperty('--elastic-pull-offset', '0px');
                 document.body.classList.remove('elastic-scroll-active');
                 document.body.classList.remove('elastic-scroll-return');
-                springFrame = null;
+                releaseFrame = null;
                 return;
             }
 
-            document.body.style.setProperty('--elastic-pull-offset', Math.max(0, currentPull) + 'px');
-            springFrame = window.requestAnimationFrame(settle);
+            document.body.style.setProperty('--elastic-pull-offset', currentPull + 'px');
+            releaseFrame = window.requestAnimationFrame(settle);
         }
 
-        springFrame = window.requestAnimationFrame(settle);
+        releaseFrame = window.requestAnimationFrame(settle);
     }
 
     function handleTouchStart(event) {
@@ -100,7 +107,7 @@
 
         pulling = true;
         document.body.classList.remove('elastic-scroll-return');
-        setPull(pullDistance * touchDamping);
+        setPull(dampen(pullDistance, touchResistance));
         event.preventDefault();
     }
 
@@ -110,11 +117,11 @@
         }
 
         document.body.classList.remove('elastic-scroll-return');
-        setPull(currentPull + Math.min(18, Math.abs(event.deltaY) * wheelDamping));
+        setPull(currentPull + Math.min(wheelStepLimit, dampen(Math.abs(event.deltaY), wheelResistance)));
         event.preventDefault();
 
         window.clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(releasePull, 90);
+        wheelTimer = window.setTimeout(releasePull, 72);
     }
 
     window.addEventListener('touchstart', handleTouchStart, {passive: true});
