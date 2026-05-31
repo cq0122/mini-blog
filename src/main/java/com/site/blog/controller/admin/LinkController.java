@@ -48,6 +48,8 @@ public class LinkController {
                 .setLinkName(LinkConstants.LINK_TYPE_RECOMMEND.getLinkTypeName()));
         links.add(new BlogLink().setLinkType(LinkConstants.LINK_TYPE_PRIVATE.getLinkTypeId())
                 .setLinkName(LinkConstants.LINK_TYPE_PRIVATE.getLinkTypeName()));
+        links.add(new BlogLink().setLinkType(LinkConstants.LINK_TYPE_POETRY.getLinkTypeId())
+                .setLinkName(LinkConstants.LINK_TYPE_POETRY.getLinkTypeName()));
         return ResultGenerator.getResultByHttp(HttpStatusEnum.OK,links);
     }
 

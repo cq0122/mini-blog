@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/X-admin/lib/layui/css/layui.css}"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}"/>
     <link rel="stylesheet" th:href="@{/X-admin/editormd/css/editormd.preview.css}"/>
-    <script th:src="@{/blog/plugins/baidu.js}"></script>
     <style>
         pre code {
             white-space: pre;
@@ -23,6 +22,12 @@
             padding: 10px 0 10px 15px;
             color: #777;
             background-color: rgba(66, 185, 131, .1);
+        }
+
+        .editormd-html-preview blockquote {
+            width: fit-content;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .editormd-html-preview ul > li {
@@ -65,7 +70,7 @@
     <div th:text="${description}"></div>
     <div th:text="${#strings.abbreviate(blogDetailVO.blogContent,300)}"></div>
 </div>
-<div class="container">
+<div class="container detail-page">
     <div class="am-g am-g-fixed blog-fixed">
         <div class="am-u-lg-12 am-u-sm-12">
             <article id="test-markdown-view">

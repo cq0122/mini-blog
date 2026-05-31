@@ -4,53 +4,81 @@
 <body id="blog">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 <div th:replace="blog/amaze/header::header-fragment"></div>
-<div class="am-g am-g-fixed blog-fixed">
+<div class="am-g am-g-fixed blog-fixed page-shell links-page">
     <div class="am-u-lg-offset-1 am-u-lg-10 am-u-sm-12">
-        <main class="links-list">
+        <main class="links-list page-panel">
+            <header class="page-section-header">
+                <span class="page-kicker">Links</span>
+                <h2>常用资源</h2>
+                <p>整理一些开发、学习和资料下载入口，方便快速访问。</p>
+            </header>
             <th:block th:unless="${#lists.isEmpty(favoriteLinks)}">
-                <div class="title">
-                    <h3>前端</h3>
-                </div>
-                <div class="list">
-                    <ul>
+                <section class="link-group">
+                    <div class="link-group-header">
+                        <h3>前端</h3>
+                    </div>
+                    <ul class="link-grid">
                         <th:block th:each="favoriteLink : ${favoriteLinks}">
-                            <li>
-                                <a target="_blank" th:href="@{${favoriteLink.linkUrl}}" th:text="${favoriteLink.linkName}">前端</a> -
-                                <th:block th:text="${favoriteLink.linkDescription}"></th:block>
+                            <li class="link-card">
+                                <a target="_blank" th:href="@{${favoriteLink.linkUrl}}">
+                                    <span class="link-name" th:text="${favoriteLink.linkName}">前端</span>
+                                    <span class="link-desc" th:text="${favoriteLink.linkDescription}">前端资源</span>
+                                </a>
                             </li>
                         </th:block>
                     </ul>
-                </div>
+                </section>
             </th:block>
             <th:block th:unless="${#lists.isEmpty(recommendLinks)}">
-                <div class="title">
-                    <h3>后端</h3>
-                </div>
-                <div class="list">
-                    <ul>
+                <section class="link-group">
+                    <div class="link-group-header">
+                        <h3>后端</h3>
+                    </div>
+                    <ul class="link-grid">
                         <th:block th:each="recommendLink : ${recommendLinks}">
-                            <li>
-                                <a target="_blank" th:href="@{${recommendLink.linkUrl}}" th:text="${recommendLink.linkName}">后端</a> -
-                                <th:block th:text="${recommendLink.linkDescription}"></th:block>
+                            <li class="link-card">
+                                <a target="_blank" th:href="@{${recommendLink.linkUrl}}">
+                                    <span class="link-name" th:text="${recommendLink.linkName}">后端</span>
+                                    <span class="link-desc" th:text="${recommendLink.linkDescription}">后端资源</span>
+                                </a>
                             </li>
                         </th:block>
                     </ul>
-                </div>
+                </section>
             </th:block>
             <th:block th:unless="${#lists.isEmpty(personalLinks)}">
-                <div class="title">
-                    <h3>资料下载</h3>
-                </div>
-                <div class="list">
-                    <ul>
+                <section class="link-group">
+                    <div class="link-group-header">
+                        <h3>资料下载</h3>
+                    </div>
+                    <ul class="link-grid">
                         <th:block th:each="personalLink : ${personalLinks}">
-                            <li>
-                                <a target="_blank" th:href="@{${personalLink.linkUrl}}" th:text="${personalLink.linkName}">资料下载</a> -
-                                <th:block th:text="${personalLink.linkDescription}"></th:block>
+                            <li class="link-card">
+                                <a target="_blank" th:href="@{${personalLink.linkUrl}}">
+                                    <span class="link-name" th:text="${personalLink.linkName}">资料下载</span>
+                                    <span class="link-desc" th:text="${personalLink.linkDescription}">资料下载</span>
+                                </a>
                             </li>
                         </th:block>
                     </ul>
-                </div>
+                </section>
+            </th:block>
+            <th:block th:unless="${#lists.isEmpty(poetryLinks)}">
+                <section class="link-group">
+                    <div class="link-group-header">
+                        <h3>诗词</h3>
+                    </div>
+                    <ul class="link-grid">
+                        <th:block th:each="poetryLink : ${poetryLinks}">
+                            <li class="link-card">
+                                <a target="_blank" th:href="@{${poetryLink.linkUrl}}">
+                                    <span class="link-name" th:text="${poetryLink.linkName}">诗词</span>
+                                    <span class="link-desc" th:text="${poetryLink.linkDescription}">诗词资源</span>
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </section>
             </th:block>
         </main>
     </div>

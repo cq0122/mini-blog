@@ -10,7 +10,8 @@ package com.site.blog.constants;
 public enum LinkConstants {
     LINK_TYPE_FRIENDSHIP(0,"友链"),
     LINK_TYPE_RECOMMEND(1,"推荐"),
-    LINK_TYPE_PRIVATE(2,"个人网站");
+    LINK_TYPE_PRIVATE(2,"个人网站"),
+    LINK_TYPE_POETRY(3,"诗词");
 
 
     private final Integer linkTypeId;

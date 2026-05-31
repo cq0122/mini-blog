@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,9 @@ public class MyBlogController {
 
     @Autowired
     private BlogLinkService blogLinkService;
+
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
     /**
      * 博客首页
@@ -115,12 +119,22 @@ public class MyBlogController {
         return search(request, keyword, "1");
     }
 
+    @GetMapping(value = "/search", params = "keyword")
+    public String searchByKeyword(HttpServletRequest request,
+                                  @RequestParam("keyword") String keyword,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") String pageNumStr) {
+        if (StringUtils.isEmpty(keyword)) {
+            return page(request, 1);
+        }
+        return search(request, keyword, pageNumStr);
+    }
+
     @GetMapping({"/search/{keyword}/{pageNum}"})
     public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("pageNum") String pageNumStr) {
         int pageNum = 1;
         try {
             pageNum = Integer.parseInt(pageNumStr);
-            pageNum = Math.min(1, pageNum);
+            pageNum = Math.max(1, pageNum);
         } catch (Exception e) {
             pageNum = 1;
         }
@@ -139,6 +153,7 @@ public class MyBlogController {
         request.setAttribute("pageName", "搜索");
         request.setAttribute("pageUrl", "search");
         request.setAttribute("keyword", keyword);
+        request.setAttribute("searchPage", true);
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
@@ -192,7 +207,7 @@ public class MyBlogController {
         request.setAttribute("blogPageResult", blogPageResult);
         request.setAttribute("pageName", pageName);
         request.setAttribute("pageUrl", "tag");
-        request.setAttribute("keyword", pageName);
+        request.setAttribute("keyword", tagId);
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
@@ -200,36 +215,38 @@ public class MyBlogController {
         return "blog/" + theme + "/list";
     }
 
-    @GetMapping({"/category/{categoryName}"})
-    public String category(HttpServletRequest request, @PathVariable("categoryName") String categoryName) {
-        return category(request, categoryName, 1);
+    @GetMapping({"/category/{categoryId}"})
+    public String category(HttpServletRequest request, @PathVariable("categoryId") Integer categoryId) {
+        return category(request, categoryId, 1);
     }
 
     /**
      * 分类列表
      *
      * @param request
-     * @param categoryName
+     * @param categoryId
      * @param pageNum
      * @return java.lang.String
      * @date 2019/9/6 13:04
      */
-    @GetMapping({"/category/{categoryName}/{pageNum}"})
-    public String category(HttpServletRequest request, @PathVariable("categoryName") String categoryName, @PathVariable("pageNum") Integer pageNum) {
+    @GetMapping({"/category/{categoryId}/{pageNum}"})
+    public String category(HttpServletRequest request, @PathVariable("categoryId") Integer categoryId, @PathVariable("pageNum") Integer pageNum) {
+        BlogCategory blogCategory = blogCategoryService.getById(categoryId);
+        String pageName = blogCategory == null ? "分类" : blogCategory.getCategoryName();
         Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                 .lambda()
                 .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
                 .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
-                .eq(BlogInfo::getBlogCategoryName, categoryName)
+                .eq(BlogInfo::getBlogCategoryId, categoryId)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);
 
         request.setAttribute("blogPageResult", blogPageResult);
-        request.setAttribute("pageName", categoryName);
+        request.setAttribute("pageName", pageName);
         request.setAttribute("pageUrl", "category");
-        request.setAttribute("keyword", categoryName);
+        request.setAttribute("keyword", categoryId);
         request.setAttribute("newBlogs", blogInfoService.getNewBlog());
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
@@ -327,10 +344,14 @@ public class MyBlogController {
         List<BlogLink> personalLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
                 .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_PRIVATE.getLinkTypeId())
         );
-        //判断友链类别并封装数据 0-友链 1-推荐 2-个人网站
+        List<BlogLink> poetryLinks = blogLinkService.list(new QueryWrapper<BlogLink>()
+                .lambda().eq(BlogLink::getLinkType, LinkConstants.LINK_TYPE_POETRY.getLinkTypeId())
+        );
+        //判断友链类别并封装数据 0-友链 1-推荐 2-个人网站 3-诗词
         request.setAttribute("favoriteLinks", favoriteLinks);
         request.setAttribute("recommendLinks", recommendLinks);
         request.setAttribute("personalLinks", personalLinks);
+        request.setAttribute("poetryLinks", poetryLinks);
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "blog/" + theme + "/link";
     }

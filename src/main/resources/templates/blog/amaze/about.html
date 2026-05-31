@@ -1,26 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blog/amaze/header::head-fragment"></head>
-<body id="blog">
-<div th:replace="blog/amaze/header::nav-fragment"></div>
-<div th:replace="blog/amaze/header::header-fragment"></div>
-<div class="am-g am-g-fixed blog-fixed">
-    <div class="am-u-lg-offset-2 am-u-lg-8 am-u-sm-12">
-        <div class="blog-entry-text">
-            <p>
-            <h2>About Me</h2>
-            </p>
-            <hr/>
-            <p>把一个项目当成一件艺术品来完成时，你就会追求细节的完美。</p>
-            <p>85后大叔，迷失在自己的代码中无法自拔~~~</p>
-            <h2>Contact</h2>
-            <hr/>
-            <p><i class="iconfont i-email"></i>&nbsp;CQ0122@163.com</p>
-            <p><i class="iconfont i-github"></i>&nbsp;<a href="https://github.com/cq0122" target="_blank">Github</a></p>
-            <p><i class="iconfont i-location"></i>&nbsp;Shanghai&nbsp;·&nbsp;China</p>
-        </div>
+  <head th:replace="blog/amaze/header::head-fragment"></head>
+  <body id="blog">
+    <div th:replace="blog/amaze/header::nav-fragment"></div>
+    <div th:replace="blog/amaze/header::header-fragment"></div>
+    <div class="am-g am-g-fixed blog-fixed page-shell about-page">
+      <div class="am-u-lg-offset-1 am-u-lg-10 am-u-sm-12">
+        <main class="about-layout">
+          <article class="about-card page-panel">
+            <img
+              class="about-card-avatar"
+              th:src="@{${configurations.get('sysAuthorImg')}}"
+              alt="Rich"
+            />
+            <header class="page-section-header">
+              <span class="page-kicker">About Me</span>
+              <h2>Rich</h2>
+              <p>把一个项目当成一件艺术品来完成时，你就会追求细节的完美。</p>
+            </header>
+            <section class="about-content">
+              <p>85后大叔，迷失在自己的代码中无法自拔~~~</p>
+            </section>
+            <section class="contact-list">
+              <a href="mailto:cq0122@163.com">
+                <i class="iconfont i-email"></i>
+                <span>CQ0122@163.com</span>
+              </a>
+              <a href="https://github.com/cq0122" target="_blank">
+                <i class="iconfont i-github"></i>
+                <span>Github</span>
+              </a>
+              <span>
+                <i class="iconfont i-location"></i>
+                <span>Shanghai · China</span>
+              </span>
+            </section>
+          </article>
+          <article class="about-map-panel page-panel">
+            <img
+              th:src="@{/blog/amaze/images/about-map.png}"
+              alt="Shanghai · China"
+            />
+          </article>
+        </main>
+      </div>
     </div>
-</div>
-<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
-</body>
+    <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+  </body>
 </html>

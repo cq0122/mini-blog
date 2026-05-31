@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ApplicationControllerExceptionHandler {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ApplicationControllerExceptionHandler.class);
 
     /**
      * 方法参数效验

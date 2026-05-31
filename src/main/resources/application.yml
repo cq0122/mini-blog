@@ -71,8 +71,8 @@ logging:
   level.com.site.blog: debug
 
 upload:
-  uploadAuthorImg: "D:/opt/mini-blog/authorImg/"
-  fileUploadDic: "D:/opt/mini-blog/upload/"
+  uploadAuthorImg: "/opt/mini-blog/authorImg/"
+  fileUploadDic: "/opt/mini-blog/upload/"
   sqlAuthorImg: "/authorImg/"
   fileSqlDic: "/upload/"
 

@@ -10,7 +10,6 @@
     <link rel="stylesheet" th:href="${configurations.get('iconfont')}"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
     <script th:src="@{/X-admin/js/jquery.min.js}"></script>
-    <script th:src="@{/blog/plugins/baidu.js}"></script>
 </head>
 <nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -63,9 +62,8 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="site-heading">
-          <!--<span class="subheading">-->
-          <!--我怕丢掉了安全感, 更怕困在安全区-->
-          <!--</span>-->
+          <h1 th:text="${configurations.get('websiteName') ?: 'MINIDIY'}">MINIDIY</h1>
+          <span class="subheading" th:text="${configurations.get('websiteDescription') ?: '记录日常与技术思考'}">记录日常与技术思考</span>
         </div>
       </div>
     </div>
