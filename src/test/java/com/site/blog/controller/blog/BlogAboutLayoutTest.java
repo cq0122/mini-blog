@@ -16,7 +16,9 @@ public class BlogAboutLayoutTest {
         String aboutTemplate = read("src/main/resources/templates/blog/amaze/about.html");
         String baseCss = read("src/main/resources/static/blog/amaze/css/base.css");
 
-        assertTrue(aboutTemplate.contains("class=\"am-u-lg-offset-1 am-u-lg-10 am-u-sm-12\""));
+        assertTrue(aboutTemplate.contains("class=\"am-u-lg-12 am-u-sm-12\""));
+        assertFalse(aboutTemplate.contains("am-u-lg-offset-1"));
+        assertFalse(aboutTemplate.contains("am-u-lg-10"));
         assertTrue(aboutTemplate.contains("class=\"about-card page-panel\""));
         assertTrue(aboutTemplate.contains("class=\"about-card-avatar\""));
         assertTrue(aboutTemplate.contains("th:src=\"@{${configurations.get('sysAuthorImg')}}\""));

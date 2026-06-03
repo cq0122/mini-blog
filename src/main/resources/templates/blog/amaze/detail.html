@@ -6,7 +6,7 @@
     <title th:text="|${pageName} - MINIDIY|">Article</title>
     <meta name="description" th:content="${description}">
     <meta name="keywords" th:content="${keywords}">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" th:href="@{/blog/amaze/images/favicon.ico}"/>
     <link rel="stylesheet" th:href="${configurations.get('iconfont')}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/X-admin/lib/layui/css/layui.css}"/>
@@ -40,9 +40,9 @@
         }
     </style>
 </head>
-<body>
+<body id="blog">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
-<header th:fragment="header-fragment" class="intro-header" th:style="'background-image:url(' + @{/blog/amaze/images/head-bg.png} + ');'">
+<header th:fragment="header-fragment" class="intro-header" th:style="'background-image:url(' + @{/blog/amaze/images/head-bg.jpg} + ');'">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -79,7 +79,7 @@
             <span>返回</span>
         </a>
     </div>
-    <div class="am-g am-g-fixed blog-fixed">
+    <div class="am-g blog-fixed detail-content-shell">
         <div class="am-u-lg-12 am-u-sm-12">
             <article id="test-markdown-view">
                 <!--<textarea th:utext="${blogDetailVO.blogContent}"/>-->

@@ -21,7 +21,8 @@ public class BlogHomeListStyleTest {
         assertTrue(baseCss.contains(".home-shell .blog-entry-article:hover:before"));
         assertTrue(baseCss.contains("background: linear-gradient(90deg, rgba(0, 150, 136, 0.035), transparent 48%);"));
         assertTrue(baseCss.contains(".home-shell .abstract p"));
-        assertTrue(baseCss.contains("max-width: 680px;"));
+        assertTrue(baseCss.contains(".home-shell {\n  max-width: 1360px;"));
+        assertTrue(baseCss.contains("max-width: 820px;"));
         assertTrue(baseCss.contains(".home-shell .category-name a"));
         assertTrue(baseCss.contains("rgba(0, 150, 136, 0.08)"));
         assertFalse(baseCss.contains(".home-shell .blog-entry-article {\n    position: relative;\n    overflow: visible;\n    margin: 0;\n    padding: 0;\n    border: 0;\n    border-bottom: 1px solid rgba(225, 230, 239, 0.86);\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    transition: background-color 0.18s ease, border-color 0.18s ease;\n}"));

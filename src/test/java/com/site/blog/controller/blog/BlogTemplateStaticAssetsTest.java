@@ -21,21 +21,27 @@ public class BlogTemplateStaticAssetsTest {
     }
 
     @Test
-    public void headerUsesPngBackgroundWithResponsiveAspectRatio() throws Exception {
+    public void headerUsesJpgBackgroundWithResponsiveAspectRatio() throws Exception {
         String headerTemplate = read("src/main/resources/templates/blog/amaze/header.html");
-        assertTrue(headerTemplate.contains("head-bg.png"));
-        assertTrue(read("src/main/resources/templates/blog/amaze/detail.html").contains("head-bg.png"));
+        String detailTemplate = read("src/main/resources/templates/blog/amaze/detail.html");
+        assertTrue(headerTemplate.contains("head-bg.jpg"));
+        assertTrue(detailTemplate.contains("head-bg.jpg"));
+        assertFalse(headerTemplate.contains("head-bg.png"));
+        assertFalse(detailTemplate.contains("head-bg.png"));
         assertFalse(headerTemplate.contains("head-bg2.png"));
-        assertFalse(read("src/main/resources/templates/blog/amaze/detail.html").contains("head-bg2.png"));
+        assertFalse(detailTemplate.contains("head-bg2.png"));
         assertFalse(headerTemplate.contains("header-bg.png"));
-        assertFalse(read("src/main/resources/templates/blog/amaze/detail.html").contains("header-bg.png"));
+        assertFalse(detailTemplate.contains("header-bg.png"));
         assertFalse(headerTemplate.contains("header-bg3.jpg"));
-        assertFalse(read("src/main/resources/templates/blog/amaze/detail.html").contains("header-bg3.jpg"));
+        assertFalse(detailTemplate.contains("header-bg3.jpg"));
         assertFalse(headerTemplate.contains("site-heading"));
         assertFalse(headerTemplate.contains("websiteName"));
         assertFalse(headerTemplate.contains("websiteDescription ?:"));
 
-        BufferedImage header = ImageIO.read(Paths.get("src/main/resources/static/blog/amaze/images/head-bg.png").toFile());
+        assertFalse(Files.exists(Paths.get("src/main/resources/static/blog/amaze/images/head-bg.png")));
+        assertTrue(Files.exists(Paths.get("static-files/original-assets/head-bg.png")));
+
+        BufferedImage header = ImageIO.read(Paths.get("src/main/resources/static/blog/amaze/images/head-bg.jpg").toFile());
         assertEquals(2508, header.getWidth());
         assertEquals(627, header.getHeight());
 
@@ -48,7 +54,7 @@ public class BlogTemplateStaticAssetsTest {
         assertFalse(css.contains("max-width: 100vw;"));
         assertFalse(css.contains("margin-left: calc(50% - 50vw);"));
         assertTrue(css.contains("body .intro-header .container"));
-        assertTrue(css.contains("max-width: 1170px;"));
+        assertTrue(css.contains("max-width: 1360px;"));
         assertTrue(css.contains("text-align: center;"));
         assertTrue(css.contains("aspect-ratio: 4 / 1;"));
         assertTrue(css.contains("height: 25vw;"));
@@ -62,6 +68,30 @@ public class BlogTemplateStaticAssetsTest {
         assertTrue(css.contains("@media (prefers-reduced-motion: reduce)"));
         assertTrue(css.contains("animation: none;"));
         assertTrue(css.contains("z-index: 1;"));
+    }
+
+    @Test
+    public void unusedBundledImagesAreRemovedFromStaticAssets() {
+        String[] retiredImages = {
+                "src/main/resources/static/blog/amaze/images/code-bg.png",
+                "src/main/resources/static/blog/amaze/images/header-bg.jpg",
+                "src/main/resources/static/blog/amaze/images/header-bg2.jpg",
+                "src/main/resources/static/blog/amaze/images/header-bg3.jpg",
+                "src/main/resources/static/blog/amaze/images/header-bg4.jpg",
+                "src/main/resources/static/blog/amaze/images/header.jpg",
+                "src/main/resources/static/blog/amaze/images/rich.jpg",
+                "src/main/resources/static/X-admin/editormd/examples/images/4.jpg",
+                "src/main/resources/static/X-admin/editormd/examples/images/7.jpg",
+                "src/main/resources/static/X-admin/editormd/examples/images/8.jpg",
+                "src/main/resources/static/X-admin/editormd/examples/images/editormd-screenshot.png"
+        };
+
+        for (String retiredImage : retiredImages) {
+            assertFalse(retiredImage + " should not be packaged", Files.exists(Paths.get(retiredImage)));
+        }
+
+        assertFalse("Editor.md logo image directory should not be packaged",
+                Files.exists(Paths.get("src/main/resources/static/X-admin/editormd/images/logos")));
     }
 
     private String read(String path) throws Exception {

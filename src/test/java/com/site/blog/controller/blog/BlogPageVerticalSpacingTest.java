@@ -18,6 +18,8 @@ public class BlogPageVerticalSpacingTest {
 
         assertTrue(linkTemplate.contains("page-shell links-page"));
         assertTrue(aboutTemplate.contains("page-shell about-page"));
+        assertTrue(linkTemplate.contains("class=\"am-u-lg-12 am-u-sm-12\""));
+        assertTrue(aboutTemplate.contains("class=\"am-u-lg-12 am-u-sm-12\""));
         assertTrue(baseCss.contains("padding: 38px 14px;"));
         assertTrue(baseCss.contains("padding: 22px 12px;"));
     }
